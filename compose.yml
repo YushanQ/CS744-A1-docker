@@ -23,10 +23,14 @@ services:
                 constraints: [node.labels.spark == master]
             endpoint_mode: dnsrr
             mode: global
+        volumes:
+          - /mnt/data/tmp:/mnt/data/tmp
     worker: 
         image: austinguish259/cs744-a1:spark-worker
         deploy:
             replicas: 3
+        volumes:
+          - /mnt/data/tmp:/mnt/data/tmp
         networks:
             - cluster_net
     namenode:
@@ -40,7 +44,7 @@ services:
             protocol: tcp
             mode: host
         volumes:
-            - /mnt/data/namenode:/hadoop/dfs/name
+            - /mnt/data/namenode:/mnt/data/namenode
         deploy:
           placement:
             constraints:
@@ -52,7 +56,7 @@ services:
         networks:
             - cluster_net
         volumes:
-            - /mnt/data/datanode:/hadoop/dfs/data
+            - /mnt/data/datanode:/mnt/data/datanode
         deploy:
             replicas: 3
 networks:

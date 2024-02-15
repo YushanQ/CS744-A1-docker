@@ -73,5 +73,6 @@ You should create the network. This is for connection between different machines
 ## Docker Stack Deploy
 
 ## Well Done!
-
+# Credits
+Thanks uw-madison CS544 course  [course_repo](https://github.com/cs544-wisc/f23) and  jware-solutions/docker-big-data-cluster  [repo](https://github.com/jware-solutions/docker-big-data-cluster/tree/master), they help us a lot to create this repo.
 

@@ -18,10 +18,10 @@ RUN export PATH=/hadoop-3.3.6/bin:${PATH} && export PATH=$PATH:~/hadoop-3.3.6/sb
 ENV HADOOP_HOME=/hadoop-3.3.6
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 
-WORKDIR ~/hadoop-3.3.6/etc/hadoop
+WORKDIR /hadoop-3.3.6/etc/hadoop
 COPY ./config/core-site.xml .
 COPY ./config/hdfs-site.xml .
 
-WORKDIR ~/spark-3.3.4-bin-hadoop3/conf/
+WORKDIR /spark-3.3.4-bin-hadoop3/conf/
 COPY ./config/spark-env.sh .
 
