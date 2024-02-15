@@ -58,7 +58,6 @@ services:
         volumes:
           - /mnt/data/tmp:/mnt/data/tmp
         depends_on:
-            - "namenode"
             - "datanode"
     worker: 
         image: austinguish259/cs744-a1:spark-worker
