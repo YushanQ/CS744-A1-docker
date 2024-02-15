@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-RUN apt update -y && apt install openjdk-8-jdk python3 wget iputils-ping python3-distutils
+RUN apt update -y && apt install -y openjdk-8-jdk python3 wget iputils-ping python3-distutils
 # RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 10
 
 #jupyter
