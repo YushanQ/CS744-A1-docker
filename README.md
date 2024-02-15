@@ -71,6 +71,10 @@ You should create the network. This is for connection between different machines
 
 
 ## Docker Stack Deploy
+`bash ./run.sh`
+
+## [optional] History Server
+1. 
 
 ## Well Done!
 # Credits
