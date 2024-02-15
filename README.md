@@ -1,5 +1,19 @@
 # CS744-A1-docker
 
+## Mounting disks
+Your home directory in the CloudLab machine is relatively small and can only hold 16GB of data. We have also enabled another mount point to contain around 96GB of space on each node which should be sufficient to complete this assignment.
+
+However you need to create this mount point using the following commands (on each node).
+
+`sudo bash ./mount.sh`
+
+After you complete the above steps you can verify this is correct by running
+
+`df -h | grep "data"` \
+/dev/xvda4                                        95G   60M   90G   1% /mnt/data
+
+Now you can use /mnt/data to store files in HDFS or to store shuffle data in Spark (see below). It helps to change the ownership of this directory so that sudo is not required for all future commands. You can identify the current user with the command who and then change the directory ownership with `sudo chown -R <user> /mnt/data.`
+
 ## Install Docker
 Follow the Instruction here to install Docker on each machine:
 
