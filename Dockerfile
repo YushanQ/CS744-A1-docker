@@ -13,7 +13,8 @@ RUN wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 #Spark
 RUN wget https://archive.apache.org/dist/spark/spark-3.3.4/spark-3.3.4-bin-hadoop3.tgz && tar zvxf spark-3.3.4-bin-hadoop3.tgz
 
-RUN export PATH=/hadoop-3.3.6/bin:${PATH} && export PATH=$PATH:~/hadoop-3.3.6/sbin:${PATH}
+ENV PATH="/hadoop-3.3.6/bin:${PATH}"
+ENV PATH="/hadoop-3.3.6/sbin:${PATH}"
 
 ENV HADOOP_HOME=/hadoop-3.3.6
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
@@ -24,4 +25,5 @@ COPY ./config/hdfs-site.xml .
 
 WORKDIR /spark-3.3.4-bin-hadoop3/conf/
 COPY ./config/spark-env.sh .
+COPY ./config/spark-defaults.conf .
 

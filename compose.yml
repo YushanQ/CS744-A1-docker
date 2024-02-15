@@ -1,38 +1,5 @@
 version: "3.6"
 services:
-    master:
-        image: austinguish259/cs744-a1:spark-master
-        hostname: spark-boss
-        networks:
-            - cluster_net
-        ports:
-          - target: 8080
-            published: 8080
-            protocol: tcp
-            mode: host
-          - target: 4040
-            published: 4040
-            protocol: tcp
-            mode: host
-          - target: 7077
-            published: 7077
-            protocol: tcp
-            mode: host
-        deploy:
-            placement:
-                constraints: [node.labels.spark == master]
-            endpoint_mode: dnsrr
-            mode: global
-        volumes:
-          - /mnt/data/tmp:/mnt/data/tmp
-    worker: 
-        image: austinguish259/cs744-a1:spark-worker
-        deploy:
-            replicas: 3
-        volumes:
-          - /mnt/data/tmp:/mnt/data/tmp
-        networks:
-            - cluster_net
     namenode:
         image: austinguish259/cs744-a1:hdfs-namenode
         hostname: nn
@@ -59,6 +26,50 @@ services:
             - /mnt/data/datanode:/mnt/data/datanode
         deploy:
             replicas: 3
+        depends_on:
+            - "namenode"
+    master:
+        image: austinguish259/cs744-a1:spark-master
+        hostname: spark-master
+        networks:
+            - cluster_net
+        ports:
+          - target: 8080
+            published: 8080
+            protocol: tcp
+            mode: host
+          - target: 4040
+            published: 4040
+            protocol: tcp
+            mode: host
+          - target: 7077
+            published: 7077
+            protocol: tcp
+            mode: host
+          - target: 18080
+            published: 18080
+            protocol: tcp
+            mode: host
+        deploy:
+            placement:
+                constraints: [node.labels.spark == master]
+            endpoint_mode: dnsrr
+            mode: global
+        volumes:
+          - /mnt/data/tmp:/mnt/data/tmp
+        depends_on:
+            - "namenode"
+            - "datanode"
+    worker: 
+        image: austinguish259/cs744-a1:spark-worker
+        deploy:
+            replicas: 3
+        volumes:
+          - /mnt/data/tmp:/mnt/data/tmp
+        networks:
+            - cluster_net
+        depends_on:
+            - "master"
 networks:
     cluster_net:
         external: true
