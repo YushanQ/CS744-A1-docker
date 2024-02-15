@@ -26,8 +26,6 @@ services:
             - /mnt/data/datanode:/mnt/data/datanode
         deploy:
             replicas: 3
-        depends_on:
-            - "namenode"
     master:
         image: austinguish259/cs744-a1:spark-master
         hostname: spark-master
@@ -57,8 +55,6 @@ services:
             mode: global
         volumes:
           - /mnt/data/tmp:/mnt/data/tmp
-        depends_on:
-            - "datanode"
     worker: 
         image: austinguish259/cs744-a1:spark-worker
         deploy:
@@ -67,8 +63,6 @@ services:
           - /mnt/data/tmp:/mnt/data/tmp
         networks:
             - cluster_net
-        depends_on:
-            - "master"
 networks:
     cluster_net:
         external: true
