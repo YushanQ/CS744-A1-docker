@@ -5,7 +5,7 @@ Your home directory in the CloudLab machine is relatively small and can only hol
 
 However you need to create this mount point using the following commands (on each node).
 
-`sudo bash ./mount.sh`
+`bash ./mount.sh`
 
 After you complete the above steps you can verify this is correct by running
 
