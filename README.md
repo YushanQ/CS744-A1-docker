@@ -9,10 +9,12 @@ However you need to create this mount point using the following commands (on eac
 
 After you complete the above steps you can verify this is correct by running
 
-`df -h | grep "data"` \
-/dev/xvda4                                        95G   60M   90G   1% /mnt/data
+`df -h | grep "data"` 
 
-Now you can use /mnt/data to store files in HDFS or to store shuffle data in Spark (see below). It helps to change the ownership of this directory so that sudo is not required for all future commands. You can identify the current user with the command who and then change the directory ownership with `sudo chown -R <user> /mnt/data.`
+
+```/dev/xvda4                                        95G   60M   90G   1% /mnt/data```
+
+~~Now you can use /mnt/data to store files in HDFS or to store shuffle data in Spark (see below). It helps to change the ownership of this directory so that sudo is not required for all future commands. You can identify the current user with the command who and then change the directory ownership with `sudo chown -R <user> /mnt/data`~~
 
 ## Install Docker
 Follow the Instruction here to install Docker on each machine:
@@ -23,7 +25,10 @@ To verify the installation, you can run
 
 `docker run hello-world`
 
-## Set up Docker Swarm network
+## Modify the hosts file
+By simply run `sudo bash hosts.sh` on each machine
+
+## Set up Docker Swarm 
 
 On node0, run: 
 
@@ -49,20 +54,21 @@ To very the network is set up, you can run: \
 
 ## Label the node
 
-As we assign node 0 as the master for HDFS and spark, other nodes as workers. You should label the leader properly. Run these commands on node0:  \
-`docker node update --label-add hdfs=master <Node0 Id>`
+~~As we assign node 0 as the master for HDFS and spark, other nodes as workers. You should label the leader properly. Run these commands on node0:  \~~
+~~`docker node update --label-add hdfs=master <Node0 Id>`~~
 
-`docker node update --label-add spark=master <Node0 Id>`
+~~`docker node update --label-add spark=master <Node0 Id>`~~
 
-You can fetch the Node0 Id by running:  \
-`docker node ls`
+~~You can fetch the Node0 Id by running:  \~~
+~~`docker node ls`~~
+
+Simply run `bash label.sh` on `node0`
 
 ## Create overlay network
 
 You should create the network. This is for connection between different machines.  \
 `docker network create -d overlay cluster_net_swarm`
 
-## Build Image
 
 ## Docker Stack Deploy
 

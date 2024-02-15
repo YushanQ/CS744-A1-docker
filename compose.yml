@@ -1,7 +1,7 @@
 version: "3.6"
 services:
     master:
-        image: austinguish259:master
+        image: austinguish259/cs744-a1:spark-master
         hostname: spark-boss
         networks:
             - cluster_net
@@ -24,13 +24,13 @@ services:
             endpoint_mode: dnsrr
             mode: global
     worker: 
-        image: austinguish259:worker
+        image: austinguish259/cs744-a1:spark-worker
         deploy:
             replicas: 3
         networks:
             - cluster_net
     namenode:
-        image: austinguish259:hdfs-namenode
+        image: austinguish259/cs744-a1:hdfs-namenode
         hostname: nn
         networks:
             - cluster_net
@@ -48,7 +48,7 @@ services:
             endpoint_mode: dnsrr
             mode: global
     datanode:
-        image: austinguish259:hdfs-datanode
+        image: austinguish259/cs744-a1:hdfs-datanode
         networks:
             - cluster_net
         volumes:
