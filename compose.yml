@@ -1,0 +1,61 @@
+version: "3.6"
+services:
+    master:
+        image: master
+        hostname: spark-boss
+        networks:
+            - cluster_net
+        ports:
+          - target: 8080
+            published: 8080
+            protocol: tcp
+            mode: host
+          - target: 4040
+            published: 4040
+            protocol: tcp
+            mode: host
+          - target: 7077
+            published: 7077
+            protocol: tcp
+            mode: host
+        deploy:
+            placement:
+                constraints: [node.labels.spark == boss]
+            endpoint_mode: dnsrr
+            mode: global
+    worker: 
+        image: worker
+        deploy:
+            replicas: 3
+        networks:
+            - cluster_net
+    namenode:
+        image: hdfs-namenode
+        hostname: nn
+        networks:
+            - cluster_net
+        ports:
+          - target: 9870
+            published: 9870
+            protocol: tcp
+            mode: host
+        volumes:
+            - /mnt/data/namenode:/hadoop/dfs/name
+        deploy:
+          placement:
+            constraints:
+               - node.labels.role == master
+            endpoint_mode: dnsrr
+            mode: global
+    datanode:
+        image: hdfs-datanode
+        networks:
+            - cluster_net
+        volumes:
+            - /mnt/data/datanode:/hadoop/dfs/data
+        deploy:
+            replicas: 3
+networks:
+    cluster_net:
+        external: true
+        name: cluster_net_swarm
