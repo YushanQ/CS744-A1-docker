@@ -45,8 +45,8 @@ services:
           placement:
             constraints:
                - node.labels.hdfs == master
-            endpoint_mode: dnsrr
-            mode: global
+          endpoint_mode: dnsrr
+          mode: global
     datanode:
         image: austinguish259/cs744-a1:hdfs-datanode
         networks:
