@@ -11,7 +11,7 @@ RUN pip3 install pyspark==3.3.4
 RUN wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz && tar zvxf hadoop-3.3.6.tar.gz
 
 #Spark
-RUN wget https://dlcdn.apache.org/spark/spark-3.3.4/spark-3.3.4-bin-hadoop3.tgz && tar zvxf spark-3.3.4-bin-hadoop3.tgz
+RUN wget https://archive.apache.org/dist/spark/spark-3.3.4/spark-3.3.4-bin-hadoop3.tgz && tar zvxf spark-3.3.4-bin-hadoop3.tgz
 
 RUN export PATH=/hadoop-3.3.6/bin:${PATH} && export PATH=$PATH:~/hadoop-3.3.6/sbin:${PATH}
 

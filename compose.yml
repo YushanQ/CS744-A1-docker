@@ -1,7 +1,7 @@
 version: "3.6"
 services:
     master:
-        image: master
+        image: austinguish259:master
         hostname: spark-boss
         networks:
             - cluster_net
@@ -20,17 +20,17 @@ services:
             mode: host
         deploy:
             placement:
-                constraints: [node.labels.spark == boss]
+                constraints: [node.labels.spark == master]
             endpoint_mode: dnsrr
             mode: global
     worker: 
-        image: worker
+        image: austinguish259:worker
         deploy:
             replicas: 3
         networks:
             - cluster_net
     namenode:
-        image: hdfs-namenode
+        image: austinguish259:hdfs-namenode
         hostname: nn
         networks:
             - cluster_net
@@ -44,11 +44,11 @@ services:
         deploy:
           placement:
             constraints:
-               - node.labels.role == master
+               - node.labels.hdfs == master
             endpoint_mode: dnsrr
             mode: global
     datanode:
-        image: hdfs-datanode
+        image: austinguish259:hdfs-datanode
         networks:
             - cluster_net
         volumes:
