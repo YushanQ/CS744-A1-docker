@@ -1,82 +1,114 @@
 # CS744-A1-docker
 
-## Mounting disks
-Your home directory in the CloudLab machine is relatively small and can only hold 16GB of data. We have also enabled another mount point to contain around 96GB of space on each node which should be sufficient to complete this assignment.
+## Mounting Disks
 
-However you need to create this mount point using the following commands (on each node).
+**[Run on each machine]**
 
-`bash ./mount.sh`
+Your home directory in the CloudLab machine has limited space. We have provided an additional mount point with around 90GB on each node. Execute the following commands on each node to create and verify this mount point:
 
-After you complete the above steps you can verify this is correct by running
+```bash
+bash ./mount.sh
+df -h | grep "data"
+```
 
-`df -h | grep "data"` 
-
-
-```/dev/xvda4                                        95G   60M   90G   1% /mnt/data```
-
-~~Now you can use /mnt/data to store files in HDFS or to store shuffle data in Spark (see below). It helps to change the ownership of this directory so that sudo is not required for all future commands. You can identify the current user with the command who and then change the directory ownership with `sudo chown -R <user> /mnt/data`~~
+Ensure the output shows a mount point like `/dev/xvda4 95G 60M 90G 1% /mnt/data`.
 
 ## Install Docker
-Follow the Instruction here to install Docker on each machine:
 
-`sudo bash ./install-docker.sh`
+**[Run on each machine]**
 
-To verify the installation, you can run
+Follow the instructions to install Docker on each machine:
+
+```bash
+sudo bash ./install-docker.sh
+```
+
+Verify the installation by running the `hello-world` container.
 
 `docker run hello-world`
 
-## Modify the hosts file
-By simply run `sudo bash hosts.sh` on each machine
+## Modify the Hosts File
 
-## Set up Docker Swarm 
+**[Run on each machine]**
 
-On node0, run: 
+Update the hosts file on each machine by running:
 
-`docker swarm init --advertise-addr 10.10.1.1`
+```bash
+sudo bash hosts.sh
+```
 
-You will get output like:
+## Set Up Docker Swarm
 
-docker swarm init --advertise-addr 192.168.99.100
-Swarm initialized: current node (dxn1zf6l61qsb1josjja83ngz) is now a manager.
+**[Run on node0]**
 
-To add a worker to this swarm, run the following command:
+On `node0`, initialize the Docker Swarm:
 
-    docker swarm join \ 
-    --token xxx \
-    xxx.xxx.xxx.xxx:2377
+```bash
+docker swarm init --advertise-addr \<node0-private-ip\>
+```
+Typically, the private IP address is `10.10.1.1` for `node0`. You can find the private IP address by running `ifconfig` and looking for the `inet` address under the `eth1` interface.
 
-To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+**[Run on each machine]**
 
-You should add node1 & node2 to the network by running the command listed in the output.
+Follow the instructions to add worker nodes to the swarm.
 
-To very the network is set up, you can run: \
-`docker node ls`
+**[Run on node0]**
 
-## Label the node
+To verify the network setup, run:
 
-~~As we assign node 0 as the master for HDFS and spark, other nodes as workers. You should label the leader properly. Run these commands on node0:  \~~
-~~`docker node update --label-add hdfs=master <Node0 Id>`~~
+```bash
+docker node ls #on manager node(default is node0)
+```
 
-~~`docker node update --label-add spark=master <Node0 Id>`~~
+## Label the Node (deprecated, use label.sh)
 
-~~You can fetch the Node0 Id by running:  \~~
-~~`docker node ls`~~
+~~Assign node0 as the master for HDFS and Spark. Label the leader properly by running these commands on node0: bash
+docker node update --label-add hdfs=master <Node0 Id>
+docker node update --label-add spark=master <Node0 Id>~~
 
-Simply run `bash label.sh` on `node0`
+Use the provided script to label the nodes:
 
-## Create overlay network
+**[Run on node0]**
 
-You should create the network. This is for connection between different machines.  \
-`docker network create -d overlay cluster_net_swarm`
+```bash
+bash label.sh
+```
 
+## Create Overlay Network
+
+Create an overlay network for communication between different machines:
+
+**[Run on node0]**
+
+```bash
+docker network create -d overlay cluster_net_swarm
+```
 
 ## Docker Stack Deploy
-`bash ./run.sh`
 
-## [optional] History Server
-1. 
+Deploy the Docker stack:
 
-## Well Done!
+**[Run on node0]**
+
+```bash
+bash ./run.sh
+```
+
+To verify the cluster setup, open \<node0-public-ip\>:9870 and  \<node0-public-ip\>:8080 to check the node liveness.
+
+## [Optional] History Server
+
+**[Run on node0]**
+
+Optional steps for setting up a History Server
+
+```bash
+bash ./history_server.sh
+```
+
+To verify the history server setup, open \<node0-public-ip\>:18080
+
 # Credits
-Thanks uw-madison CS544 course  [course_repo](https://github.com/cs544-wisc/f23) and  jware-solutions/docker-big-data-cluster  [repo](https://github.com/jware-solutions/docker-big-data-cluster/tree/master), they help us a lot to create this repo.
+
+Thanks to the UW-Madison CS544 course [course_repo](https://github.com/cs544-wisc/f23) and jware-solutions/docker-big-data-cluster [repo](https://github.com/jware-solutions/docker-big-data-cluster/tree/master) for their assistance in creating this repository .
 
