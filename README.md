@@ -103,7 +103,7 @@ To verify the cluster setup, open \<node0-public-ip\>:9870 and  \<node0-public-i
 Optional steps for setting up a History Server
 
 ```bash
-bash ./history_server.sh
+bash ./history-server.sh
 ```
 
 To verify the history server setup, open \<node0-public-ip\>:18080
