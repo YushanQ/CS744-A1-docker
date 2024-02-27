@@ -20,7 +20,7 @@ Ensure the output shows a mount point like `/dev/xvda4 95G 60M 90G 1% /mnt/data`
 Follow the instructions to install Docker on each machine:
 
 ```bash
-sudo bash ./install-docker.sh
+sudo bash ./install_docker.sh
 ```
 
 Verify the installation by running the `hello-world` container.
